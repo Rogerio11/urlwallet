@@ -37,34 +37,54 @@
   {% endfor %}
   
 </ul>
+</br>
   <p class="text-center">
     <a href="{% url 'ongletajoutdossier' idOnglet %}" class="btn btn-success btn-lg">Nouveau Dossier</a>
     <a href="{% url 'ongletajoutlien' idOnglet %}" class="btn btn-success btn-lg">Nouveau Lien</a></p>
 
+<div class="container cbox">
+<div class="row">
 {% for dossier in tabDossiers %}
 
+<div class="col-sm-2 mt-2 dbox">
 
-<div class="card" style="width: 10rem;">
-<h5 class="card-title text-center">{{dossier.nom}}</h5>
-<a href="{% url 'dossier' currentOnglet.id dossier.id %}"> <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/11/19/01/44/folder-1837607_960_720.png" alt="Card image cap">
-</a>  
-  <div class="card-body">
-    <p class="card-text">{{dossier.info}}</p>
-    <p class=text-center><a href="#" class="btn btn-primary" >Modifier</a></p>
-  </div>
+    <div class="card" style="width: 10rem;">
+    <h5 class="card-title text-center">{{dossier.nom}}</h5>
+    <a href="{% url 'dossier' currentOnglet.id dossier.id %}"> <img class="card-img-top" src="https://cdn.pixabay.com/photo/2016/11/19/01/44/folder-1837607_960_720.png" alt="Card image cap">
+    </a>  
+      <div class="card-body">
+        <p class="card-text">{{dossier.info}}</p>
+        <p class=text-center><a href="{% url 'updatedossier' idOnglet dossier.id %}" class="btn btn-primary" >Modifier</a></p>
+      </div>
+    </div>
+
 </div>
+
 {% endfor %}
+</div>
+</div>
+
+</br>
+
+<div class="container cbox">
+<div class="row">
 
 {% for lien in tabLiens %}
+
+<div class="col-sm-2 dbox">
 <div class="card" style="width: 10rem;">
 <a href="{{lien.lien_url}}"> <img class="card-img-top" src="https://api.miniature.io/?token=Ydn9tkyG8uwPotWP&url={{lien.lien_url}}" alt="Card image cap">
 </a>  
   <div class="card-body">
     <p class="card-text">{{lien.info}}</p>
-    <p class=text-center><a href="#" class="btn btn-primary" >Modifier</a></p>
+    <p class=text-center><a href="{% url 'updateongletlien' idOnglet lien.id %}" class="btn btn-primary" >Modifier</a></p>
   </div>
 </div>
+</div>
+
 {% endfor %}
+</div>
+</div>
 
   <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
