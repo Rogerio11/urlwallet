@@ -133,6 +133,10 @@ def addongletlien(request, idOnglet):
         onglet = get_object_or_404(Onglet, pk = idOnglet)
         lien_url = form.cleaned_data.get("lien_url")
         info = form.cleaned_data.get("info")
+        if(lien_url.find("https://") == 0):
+            lien_url = lien_url.replace("https://", "",1)
+        elif (lien_url.find("http://") == 0):
+            lien_url = lien_url.replace("http://", "",1)
         lien = Lien.objects.create(
             lien_url = lien_url,
             info = info
@@ -155,6 +159,10 @@ def adddossierlien(request, idOnglet,idDossier):
         dossier = get_object_or_404(Dossier, pk = idDossier)
         lien_url = form.cleaned_data.get("lien_url")
         info = form.cleaned_data.get("info")
+        if(lien_url.find("https://") == 0):
+            lien_url = lien_url.replace("https://", "",1)
+        elif (lien_url.find("http://") == 0):
+            lien_url = lien_url.replace("http://", "",1)
         lien = Lien.objects.create(
             lien_url = lien_url,
             info = info
@@ -238,6 +246,10 @@ def updateongletlien(request, idOnglet, idLien):
     if request.method == "POST":
         lien_url = request.POST.get("lien_url")
         info = request.POST.get("info")
+        if(lien_url.find("https://") == 0):
+            lien_url = lien_url.replace("https://", "",1)
+        elif (lien_url.find("http://") == 0):
+            lien_url = lien_url.replace("http://", "",1)
         Lien.objects.filter(pk = idLien).update(
             lien_url = lien_url,
             info = info
@@ -251,6 +263,10 @@ def updatedossierlien(request, idOnglet, idDossier, idLien):
     if request.method == "POST":
         lien_url = request.POST.get("lien_url")
         info = request.POST.get("info")
+        if(lien_url.find("https://") == 0):
+            lien_url = lien_url.replace("https://", "",1)
+        elif (lien_url.find("http://") == 0):
+            lien_url = lien_url.replace("http://", "",1)
         Lien.objects.filter(pk = idLien).update(
             lien_url = lien_url,
             info = info

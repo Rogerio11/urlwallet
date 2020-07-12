@@ -20,9 +20,14 @@
     <title>{% block title %} {% endblock %}</title>
   </head>
   <body>
-
+</br>
 <p class="text-center"><a href="{% url 'ongletajout' %}" class="btn btn-primary btn-lg">Nouveau onglet</a></p>
 
+</br>
+{% if i == 0 %}
+<p class="text-center"><img src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_detail/few_off/sian-fkp-37/overview/SIAN_FKP_37_01-overview2_M.jpg">
+    </p>
+    {% else %}  
 <nav>
 
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -74,7 +79,7 @@
         {% for lien in values.liens %}
       <div class="col-sm-2 mt-2 dbox">
           <div class="card" style="width: 10rem;">
-            <a href="{{lien.lien_url}}"> <img class="card-img-top" src="https://api.miniature.io/?token=Ydn9tkyG8uwPotWP&url={{lien.lien_url}}" alt="Card image cap"></a>  
+            <a href="https://{{lien.lien_url}}"> <img class="card-img-top" src="https://api.miniature.io/?token=Ydn9tkyG8uwPotWP&url=https://{{lien.lien_url}}" alt="Card image cap"></a>  
             <div class="card-body">
               <p class="card-text">{{lien.info}}</p>
               <p class=text-center><a href="{% url 'updateongletlien' key.id lien.id %}" class="btn btn-primary" >Modifier</a></p>
@@ -88,7 +93,7 @@
   {% endfor %}
 </div>
 
-
+{% endif %}
   <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
