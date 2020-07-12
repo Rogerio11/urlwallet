@@ -21,6 +21,11 @@
   </head>
   <body>
 
+  <p class="text-center">
+    <a href="{% url 'ongletajout' %}" class="btn btn-success btn-lg">Nouveau onglet</a>
+    <a href="{% url 'updatedos' idOnglet idDossier %}" class="btn btn-primary btn-lg">Modifier dossier</a></p>
+
+
 <ul class="nav nav-tabs">
     {% for onglet in onglets %} 
   <li class="nav-item">
@@ -34,9 +39,9 @@
   
 </ul>
 
-<p class="text-center"><a href="#" class="btn btn-primary btn-lg">Modifier onglet</a>
-              <a href="#" class="btn btn-danger btn-lg">Nouveau dossier</a>
-              <a href="#" class="btn btn-success btn-lg">Nouveau lien</a></p>
+  <p class="text-center">
+    <a href="{% url 'dossierajoutdossier' idOnglet idDossier %}" class="btn btn-success btn-lg">Nouveau dossier</a>
+    <a href="{% url 'dossierajoutlien' idOnglet idDossier %}" class="btn btn-success btn-lg">Nouveau lien</a></p>
 
   {% for dossier in tabDossiers %}
 

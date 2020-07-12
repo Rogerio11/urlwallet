@@ -29,9 +29,9 @@
 
   {% for key,values in dico.items %} 
     {% if values.num == 0 %}
-        <a class="nav-item nav-link active" id="nav-{{ key.nom.split|join:"_" }}-tab" data-toggle="tab" href="#nav-{{ key.nom.split|join:"_" }}" role="tab" aria-controls="nav-{{ key.nom.split|join:"_" }}" aria-selected="true">{{key.nom}}</a>
+        <a class="nav-item nav-link active" id="nav-{{ key.id}}-tab" data-toggle="tab" href="#nav-{{ key.id}}" role="tab" aria-controls="nav-{{ key.id}}" aria-selected="true">{{key.nom}}</a>
     {% else %}   
-        <a class="nav-item nav-link" id="nav-{{ key.nom.split|join:"_" }}-tab" data-toggle="tab" href="#nav-{{ key.nom.split|join:"_" }}" role="tab" aria-controls="nav-{{ key.nom.split|join:"_" }}" aria-selected="true">{{key.nom}}</a>
+        <a class="nav-item nav-link" id="nav-{{ key.id}}-tab" data-toggle="tab" href="#nav-{{ key.id}}" role="tab" aria-controls="nav-{{ key.id}}" aria-selected="true">{{key.nom}}</a>
     {% endif %}
   {% endfor %} 
   </div>
@@ -40,9 +40,9 @@
 <div class="tab-content" id="nav-tabContent">
   {% for key,values in dico.items %} 
     {% if values.num == 0 %}
-      <div class="tab-pane fade show active" id="nav-{{ key.nom.split|join:"_" }}" role="tabpanel" aria-labelledby="nav-{{ key.nom.split|join:"_" }}-tab">
+      <div class="tab-pane fade show active" id="nav-{{ key.id}}" role="tabpanel" aria-labelledby="nav-{{ key.id}}-tab">
     {% else %}
-      <div class="tab-pane fade" id="nav-{{ key.nom.split|join:"_" }}" role="tabpanel" aria-labelledby="nav-{{ key.nom.split|join:"_" }}-tab">
+      <div class="tab-pane fade" id="nav-{{ key.id}}" role="tabpanel" aria-labelledby="nav-{{ key.id}}-tab">
     {% endif %}
 
         <p class="text-center"><a href="#" class="btn btn-primary btn-lg">Modifier onglet</a>
