@@ -54,7 +54,8 @@ def fonconglet(request, idOnglet):
 def foncdossier(request, idOnglet, idDossier):
     currentOnglet = get_object_or_404(Onglet, pk = idOnglet)
     currentDossier = get_object_or_404(Dossier, pk = idDossier)
-    onglets = Onglet.objects.all()
+    user = request.user
+    onglets = Onglet.objects.filter(created_by = user)
     tabDossiers = Dossier.objects.filter(pere_id = idDossier)
     tabLiens = []
     taille = 0
