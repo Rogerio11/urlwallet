@@ -20,10 +20,15 @@
     <title>{% block title %} {% endblock %}</title>
   </head>
   <body>
-
+</br>
   <p class="text-center">
+    {% if currentDossier.pere_id == -1 %}
+  <a href="{% url 'onglet' idOnglet %}" class="btn btn-warning btn-lg">Retour</a>
+  {% else %}
+  <a href="{% url 'dossier' idOnglet currentDossier.pere_id %}" class="btn btn-warning btn-lg">Retour</a>
+  {% endif %}
     <a href="{% url 'ongletajout' %}" class="btn btn-success btn-lg">Nouveau onglet</a>
-    <a href="{% url 'updatedos' idOnglet idDossier %}" class="btn btn-primary btn-lg">Modifier dossier</a></p>
+    <a href="{% url 'updatedeldos' idOnglet idDossier %}" class="btn btn-primary btn-lg">Modifier dossier</a></p>
 
 
 <ul class="nav nav-tabs">
@@ -38,12 +43,15 @@
   {% endfor %}
   
 </ul>
-
-  <p class="text-center">
   </br>
+  <p class="text-center">
     <a href="{% url 'dossierajoutdossier' idOnglet idDossier %}" class="btn btn-success btn-lg">Nouveau dossier</a>
     <a href="{% url 'dossierajoutlien' idOnglet idDossier %}" class="btn btn-success btn-lg">Nouveau lien</a></p>
 
+{% if taille == 0 %}
+<p class="text-center"><img src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_detail/few_off/sian-fkp-37/overview/SIAN_FKP_37_01-overview2_M.jpg">
+    </p>
+    {% else %}
 <div class="container cbox">
 <div class="row">
 
@@ -56,7 +64,7 @@
 </a>  
   <div class="card-body">
     <p class="card-text">{{dossier.info}}</p>
-    <p class=text-center><a href="{% url 'updatedossier' idOnglet dossier.id %}" class="btn btn-primary" >Modifier</a></p>
+    <p class=text-center><a href="{% url 'updatedeletedossier' idOnglet dossier.id %}" class="btn btn-primary" >Modifier</a></p>
   </div>
 </div>
 </div>
@@ -78,7 +86,7 @@
 </a>  
   <div class="card-body">
     <p class="card-text">{{lien.info}}</p>
-    <p class=text-center><a href="{% url 'updatedossierlien' idOnglet idDossier lien.id %}" class="btn btn-primary" >Modifier</a></p>
+    <p class=text-center><a href="{% url 'updatedeletedossierlien' idOnglet idDossier lien.id %}" class="btn btn-primary" >Modifier</a></p>
   </div>
 </div>
 </div>
@@ -86,7 +94,7 @@
 </div>
 </div>
   
-
+{% endif %}
   <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script

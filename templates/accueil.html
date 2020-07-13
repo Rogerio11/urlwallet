@@ -51,8 +51,8 @@
     {% endif %}
 
 </br>
-        <p class="text-center"><a href="{% url 'update' key.id %}" class="btn btn-primary btn-lg">Modifier onglet</a>
-          <a href="{% url 'ongletajoutdossier' key.id %}" class="btn btn-danger btn-lg">Nouveau dossier</a>
+        <p class="text-center"><a href="{% url 'updatedeleteonglet' key.id %}" class="btn btn-primary btn-lg">Modifier onglet</a>
+          <a href="{% url 'ongletajoutdossier' key.id %}" class="btn btn-success btn-lg">Nouveau dossier</a>
           <a href="{% url 'ongletajoutlien' key.id %}" class="btn btn-success btn-lg">Nouveau lien</a>
         </p>
 
@@ -82,7 +82,7 @@
             <a href="https://{{lien.lien_url}}"> <img class="card-img-top" src="https://api.miniature.io/?token=Ydn9tkyG8uwPotWP&url=https://{{lien.lien_url}}" alt="Card image cap"></a>  
             <div class="card-body">
               <p class="card-text">{{lien.info}}</p>
-              <p class=text-center><a href="{% url 'updateongletlien' key.id lien.id %}" class="btn btn-primary" >Modifier</a></p>
+              <p class=text-center><a href="{% url 'updatedeleteongletlien' key.id lien.id %}" class="btn btn-primary" >Modifier</a></p>
             </div>
           </div>
 </div>

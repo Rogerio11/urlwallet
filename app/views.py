@@ -63,7 +63,7 @@ def fonconglet(request, idOnglet):
     onglets = Onglet.objects.all()
     tabDossiers = []
     tabLiens = []
-    
+    taille = 0
     currentOnglet = get_object_or_404(Onglet, pk = idOnglet)
     onglet_dossiers = Assoongletdossier.objects.filter(onglet = currentOnglet)
     onglet_liens = Assoongletlien.objects.filter(onglet = currentOnglet)
@@ -72,6 +72,8 @@ def fonconglet(request, idOnglet):
         tabDossiers.append(ong_dos.dossier)
     for ong_lien in onglet_liens:
         tabLiens.append(ong_lien.lien)
+        
+    taille = len(tabDossiers) + len(tabLiens)
 
     return render(request, "onglet.html",locals())
 
@@ -81,12 +83,13 @@ def foncdossier(request, idOnglet, idDossier):
     onglets = Onglet.objects.all()
     tabDossiers = Dossier.objects.filter(pere_id = idDossier)
     tabLiens = []
+    taille = 0
     
     dossier_liens = Assodossierlien.objects.filter(dossier = currentDossier)
     
     for dos_lie in dossier_liens:
         tabLiens.append(dos_lie.lien)
-        
+    taille = len(tabDossiers) + len(tabLiens)
     return render(request, "dossier.html", locals())
 
 def addonglet(request):
@@ -196,6 +199,13 @@ def adddossierdossier(request, idOnglet,idDossierPere):
         
     return render(request,"add.html",locals())
 
+def update_delete_onglet(request, idOnglet):
+    onglet = get_object_or_404(Onglet, pk = idOnglet)
+    if request.method == "POST":
+        onglet.delete()
+        return redirect("/accueil")
+    return render(request, "upd_del_onglet.html",locals())
+
 def updateonglet(request, idOnglet):
     onglet = get_object_or_404(Onglet, pk = idOnglet)
     dico = onglet.__dict__
@@ -207,7 +217,18 @@ def updateonglet(request, idOnglet):
         return redirect("/onglet/"+str(idOnglet))
     return render(request, "update.html", locals())
 
-
+def update_delete_dossier(request, idOnglet, idDossier):
+    dossier = get_object_or_404(Dossier, pk = idDossier)
+    pere_id = dossier.pere_id
+    if request.method == "POST":
+        dossier.delete()
+        if(pere_id == -1):
+            return redirect("/onglet/"+str(idOnglet))
+        else:
+            return redirect("/onglet/"+str(idOnglet)+"/dossier/"+str(pere_id))
+    return render(request, "upd_del_onglet_dossier.html",locals())
+    
+    
 def updatedossier(request, idOnglet, idDossier):
     dossier = get_object_or_404(Dossier, pk = idDossier)
     dico = dossier.__dict__
@@ -225,6 +246,17 @@ def updatedossier(request, idOnglet, idDossier):
         
     return render(request, "update.html", locals())
 
+def update_delete_dossier_dossier(request, idOnglet, idDossier):
+    dossier = get_object_or_404(Dossier, pk = idDossier)
+    pere_id = dossier.pere_id
+    if request.method == "POST":
+        dossier.delete()
+        if(pere_id == -1):
+            return redirect("/onglet/"+str(idOnglet))
+        else:
+            return redirect("/onglet/"+str(idOnglet)+"/dossier/"+str(pere_id))
+    return render(request, "upd_del_dos_dos.html",locals())
+
 def updatedos(request, idOnglet, idDossier):
     dossier = get_object_or_404(Dossier, pk = idDossier)
     dico = dossier.__dict__
@@ -240,6 +272,14 @@ def updatedos(request, idOnglet, idDossier):
         
     return render(request, "update.html", locals())
 
+
+def update_delete_update_onglet_lien(request, idOnglet, idLien):
+    lien = get_object_or_404(Lien, pk = idLien)
+    if request.method == "POST":
+        lien.delete()
+        return redirect("/onglet/"+str(idOnglet))
+    return render(request, "update_delete_onglet_lien.html",locals())
+    
 def updateongletlien(request, idOnglet, idLien):
     lien = get_object_or_404(Lien, pk = idLien)
     dico = lien.__dict__
@@ -257,6 +297,13 @@ def updateongletlien(request, idOnglet, idLien):
         return redirect("/onglet/"+str(idOnglet))
     return render(request, "update.html", locals())
 
+def update_delete_update_dossier_lien(request, idOnglet, idDossier, idLien):
+    lien = get_object_or_404(Lien, pk = idLien)
+    if request.method == "POST":
+        lien.delete()
+        return redirect("/onglet/"+str(idOnglet)+"/dossier/"+str(idDossier))
+    return render(request, "update_delete_dossier_lien.html",locals())
+
 def updatedossierlien(request, idOnglet, idDossier, idLien):
     lien = get_object_or_404(Lien, pk = idLien)
     dico = lien.__dict__
@@ -273,3 +320,4 @@ def updatedossierlien(request, idOnglet, idDossier, idLien):
         )
         return redirect("/onglet/"+str(idOnglet)+"/dossier/"+str(idDossier))
     return render(request, "update.html", locals())
+
