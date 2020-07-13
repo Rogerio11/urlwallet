@@ -4,34 +4,17 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect, render
 from app.models import Assodossierlien, Assoongletdossier, Assoongletlien, Dossier, Lien, Onglet
 from app.forms import DossierForm, LienForm, OngletForm
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 def home(request):    
     return render(request,"index.html")
 
-
-def test(request):
-    onglets = Onglet.objects.all()
-    dico = {}
-    dicoTest = {}
-    i = 0
-    for ong in onglets:
-        dico[ong.nom] = i
-        onglet_dossiers = Assoongletdossier.objects.filter(onglet = ong)
-        onglet_liens = Assoongletlien.objects.filter(onglet = ong)
-        tabDossier = []
-        tabLien = []
-        for ong_dos in onglet_dossiers:
-            tabDossier.append(ong_dos.dossier)
-        for ong_lien in onglet_liens:
-            tabLien.append(ong_lien.lien)
-        dicoTest[ong.nom] = {'num' : i, 'dossiers' : tabDossier, 'liens' : tabLien}
-        i+=1
-    return render(request, "test.html",locals())
-
+@login_required(login_url="/login/")
 def foncaccueil(request):
-    onglets = Onglet.objects.all()
+    user = request.user
+    onglets = Onglet.objects.filter(created_by = user)
     dico = {}
     i = 0
     for ong in onglets:
@@ -47,20 +30,10 @@ def foncaccueil(request):
         i+=1
     return render(request, "accueil.html",locals())
 
-def testonglet(request, nom_onglet):
-    onglets = Onglet.objects.all()
-    dico = {}
-    i = 0
-    nom_ong = nom_onglet.replace("-", "_")
-    for ong in onglets:
-        dico[ong.nom] = i
-        i+=1
-    chaine = " un deux trois"
-
-    return render(request, "test_onglet.html",locals())
-
+@login_required(login_url="/login/")
 def fonconglet(request, idOnglet):
-    onglets = Onglet.objects.all()
+    user = request.user
+    onglets = Onglet.objects.filter(created_by = user)
     tabDossiers = []
     tabLiens = []
     taille = 0
@@ -77,6 +50,7 @@ def fonconglet(request, idOnglet):
 
     return render(request, "onglet.html",locals())
 
+@login_required(login_url="/login/")
 def foncdossier(request, idOnglet, idDossier):
     currentOnglet = get_object_or_404(Onglet, pk = idOnglet)
     currentDossier = get_object_or_404(Dossier, pk = idDossier)
@@ -92,6 +66,7 @@ def foncdossier(request, idOnglet, idDossier):
     taille = len(tabDossiers) + len(tabLiens)
     return render(request, "dossier.html", locals())
 
+@login_required(login_url="/login/")
 def addonglet(request):
     form = OngletForm(request.POST or None)
     if form.is_valid():
@@ -107,6 +82,7 @@ def addonglet(request):
         
     return render(request,"add.html",locals())
 
+@login_required(login_url="/login/")
 def addongletdossier(request, idOnglet):
     form = DossierForm(request.POST or None)
     if form.is_valid():
@@ -129,6 +105,7 @@ def addongletdossier(request, idOnglet):
         
     return render(request,"add.html",locals())
 
+@login_required(login_url="/login/")
 def addongletlien(request, idOnglet):
     form = LienForm(request.POST or None)
     if form.is_valid():
@@ -155,6 +132,7 @@ def addongletlien(request, idOnglet):
         
     return render(request,"add.html",locals())
 
+@login_required(login_url="/login/")
 def adddossierlien(request, idOnglet,idDossier):
     form = LienForm(request.POST or None)
     if form.is_valid():
@@ -181,7 +159,7 @@ def adddossierlien(request, idOnglet,idDossier):
         
     return render(request,"add.html",locals())
 
-
+@login_required(login_url="/login/")
 def adddossierdossier(request, idOnglet,idDossierPere):
     form = DossierForm(request.POST or None)
     if form.is_valid():
@@ -199,6 +177,7 @@ def adddossierdossier(request, idOnglet,idDossierPere):
         
     return render(request,"add.html",locals())
 
+@login_required(login_url="/login/")
 def update_delete_onglet(request, idOnglet):
     onglet = get_object_or_404(Onglet, pk = idOnglet)
     if request.method == "POST":
@@ -217,6 +196,7 @@ def updateonglet(request, idOnglet):
         return redirect("/onglet/"+str(idOnglet))
     return render(request, "update.html", locals())
 
+@login_required(login_url="/login/")
 def update_delete_dossier(request, idOnglet, idDossier):
     dossier = get_object_or_404(Dossier, pk = idDossier)
     pere_id = dossier.pere_id
@@ -228,7 +208,7 @@ def update_delete_dossier(request, idOnglet, idDossier):
             return redirect("/onglet/"+str(idOnglet)+"/dossier/"+str(pere_id))
     return render(request, "upd_del_onglet_dossier.html",locals())
     
-    
+@login_required(login_url="/login/")   
 def updatedossier(request, idOnglet, idDossier):
     dossier = get_object_or_404(Dossier, pk = idDossier)
     dico = dossier.__dict__
@@ -246,6 +226,7 @@ def updatedossier(request, idOnglet, idDossier):
         
     return render(request, "update.html", locals())
 
+@login_required(login_url="/login/")
 def update_delete_dossier_dossier(request, idOnglet, idDossier):
     dossier = get_object_or_404(Dossier, pk = idDossier)
     pere_id = dossier.pere_id
@@ -257,6 +238,7 @@ def update_delete_dossier_dossier(request, idOnglet, idDossier):
             return redirect("/onglet/"+str(idOnglet)+"/dossier/"+str(pere_id))
     return render(request, "upd_del_dos_dos.html",locals())
 
+@login_required(login_url="/login/")
 def updatedos(request, idOnglet, idDossier):
     dossier = get_object_or_404(Dossier, pk = idDossier)
     dico = dossier.__dict__
@@ -272,14 +254,15 @@ def updatedos(request, idOnglet, idDossier):
         
     return render(request, "update.html", locals())
 
-
+@login_required(login_url="/login/")
 def update_delete_update_onglet_lien(request, idOnglet, idLien):
     lien = get_object_or_404(Lien, pk = idLien)
     if request.method == "POST":
         lien.delete()
         return redirect("/onglet/"+str(idOnglet))
     return render(request, "update_delete_onglet_lien.html",locals())
-    
+ 
+@login_required(login_url="/login/")  
 def updateongletlien(request, idOnglet, idLien):
     lien = get_object_or_404(Lien, pk = idLien)
     dico = lien.__dict__
@@ -297,6 +280,7 @@ def updateongletlien(request, idOnglet, idLien):
         return redirect("/onglet/"+str(idOnglet))
     return render(request, "update.html", locals())
 
+@login_required(login_url="/login/")
 def update_delete_update_dossier_lien(request, idOnglet, idDossier, idLien):
     lien = get_object_or_404(Lien, pk = idLien)
     if request.method == "POST":
@@ -304,6 +288,7 @@ def update_delete_update_dossier_lien(request, idOnglet, idDossier, idLien):
         return redirect("/onglet/"+str(idOnglet)+"/dossier/"+str(idDossier))
     return render(request, "update_delete_dossier_lien.html",locals())
 
+@login_required(login_url="/login/")
 def updatedossierlien(request, idOnglet, idDossier, idLien):
     lien = get_object_or_404(Lien, pk = idLien)
     dico = lien.__dict__
